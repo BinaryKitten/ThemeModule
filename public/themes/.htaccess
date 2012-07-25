@@ -1,0 +1,10 @@
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /themes/
+RedirectMatch 404 config/?$
+RedirectMatch 404 tests/?$
+RedirectMatch 404 src/?$
+RedirectMatch 404 system/?$
+RedirectMatch 404 Module.php$
+RedirectMatch 404 theme.json$
