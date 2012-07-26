@@ -1,79 +1,96 @@
 <?php
+
 namespace ThemeModule\View\Helper;
+
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
+
 /**
  * gets the path to an asset
  *
- * @author Kat
+ * @author Kathryn Reeve
+ * @method string css(string $fileName) get path for Css File
+ * @method string img(string $fileName) get path for Image File
+ * @method string js(string $fileName) get path for JavaScript File
  */
-class ThemeAsset extends AbstractHelper implements ServiceManagerAwareInterface
-{
-    protected $config = null;
+class ThemeAsset extends AbstractHelper implements ServiceManagerAwareInterface {
+
+    /**
+     * @var array Current Theme's Config
+     */
+    protected $themeConfig = null;
+
+    /**
+     * @var string Current Theme's Location
+     */
     protected $themeLocation = '';
-    protected $assetLocations = array(
-        'js'    => '',
-        'css'   => '',
-        'img'   => ''
-    );
-    
-    public function __invoke($file=null) {
-        if ($file == null) { 
-            return $this;     
+
+    /**
+     * @var array Current Theme's asset locations
+     */
+    protected $assetLocations = array('js' => '', 'css' => '', 'img' => '');
+
+    /**
+     * @var array a simple extenion=>call map
+     */
+    protected $typeMap = array('jpg' => 'img', 'jpeg' => 'img', 'png' => 'img', 'image' => 'img');
+
+    /**
+     * Main invokation method
+     * @param string $file
+     * @return \ThemeModule\View\Helper\ThemeAsset
+     */
+    public function __invoke($file = null) {
+        if ($file == null) {
+            return $this;
         }
-        //figger out the type here
+
+        $type = array_pop(explode('.', $file));
         return call_user_func(array($this, $type), $file);
     }
 
+    /**
+     * called to parse the config from the application
+     * @param \Zend\ServiceManager\ServiceManager $serviceManager
+     * @return null
+     */
     public function setServiceManager(ServiceManager $serviceManager) {
         $fullconfig = $serviceManager->getServiceLocator()->get('Config');
         if (!array_key_exists('theme', $fullconfig)) {
-            return;
+            return null;
         }
-        $this->config = $fullconfig['theme'];
-        
-        if (array_key_exists('location', $this->config)) {
-            $this->themeLocation = $this->config['location'];
+        $this->themeConfig = $fullconfig['theme'];
+
+        if (array_key_exists('location', $this->themeConfig)) {
+            $this->themeLocation = $this->themeConfig['location'];
         }
-        
+
         $types = array_keys($this->assetLocations);
-        
+
         $this->assetLocations = array_fill_keys($types, $this->themeLocation);
-        if (array_key_exists('assets', $this->config)) {
-            $this->assetLocations = array_merge($this->assetLocations, $this->config['assets']);
+        if (array_key_exists('assets', $this->themeConfig)) {
+            $this->assetLocations = array_merge($this->assetLocations, $this->themeConfig['assets']);
         }
+        return null;
     }
-    
-//    public function css($file=null)
-//    {
-//        return $this->assetLocations['css'] . "/" . $file;
-//    }
-//    
-//    public function image($file=null)
-//    {
-//        return $this->assetLocations['img'] . "/" . $file;
-//    }
-//    
-//    public function img($file=null)
-//    {
-//        return $this->assetLocations['img'] . "/" . $file;
-//    }
-//    
-//    public function js($file=null)
-//    {
-//        return $this->assetLocations['js'] . "/" . $file;
-//    }
-    
-    public function __call($name, $arguments) {
+
+    /**
+     * main calling function for asset types
+     * @param string $type
+     * @param array $arguments
+     * @return string
+     */
+    public function __call($type, $arguments) {
         $file = $arguments[0];
         $location = '';
-        if ($name == 'image') {
-            $name = 'img';
+        if (array_key_exists($type, $this->typeMap)) {
+            $type = $this->typeMap[$type];
         }
-        if (array_key_exists($name, $this->assetLocations)) {
-            $location = $this->assetLocations[$name];
+        if (array_key_exists($type, $this->assetLocations)) {
+            $location = $this->assetLocations[$type];
         }
         return $location . "/" . $file;
     }
+
 }
