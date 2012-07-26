@@ -1,10 +1,9 @@
 <?php return array(
     'view_helpers' => array(
         'invokables'=> array(
-            'themecss'      => 'ThemeModule\View\Helper\Themecss',   
-            'themejs'       => 'ThemeModule\View\Helper\Themejs',   
-            'themeimg'      => 'ThemeModule\View\Helper\Themeimage',   
-            'themeimage'    => 'ThemeModule\View\Helper\Themeimage',   
+            'themeasset'    => 'ThemeModule\View\Helper\ThemeAsset',   
+            'themeAsset'    => 'ThemeModule\View\Helper\ThemeAsset',   
+            'ThemeAsset'    => 'ThemeModule\View\Helper\ThemeAsset',   
         )
     ),
 );

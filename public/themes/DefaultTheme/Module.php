@@ -16,8 +16,14 @@ class Module
                 )
             ),
             'theme' => array(
-                'name'=>__NAMESPACE__,
-                'location'=>__DIR__
+                'name'      => __NAMESPACE__,
+                'location'  => '/themes/'.__NAMESPACE__,
+                'assets'    => array(
+                    'css'   => '/themes/'.__NAMESPACE__.'/css',
+                    'js'    => '/themes/'.__NAMESPACE__.'/js',
+                    'img'   => '/themes/'.__NAMESPACE__.'/images',
+                    'flash' => '/themes/'.__NAMESPACE__.'/flash',
+                )
             )
         );
     }

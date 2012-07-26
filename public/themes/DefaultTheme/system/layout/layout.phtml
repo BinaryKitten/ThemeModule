@@ -9,13 +9,13 @@
 
     <!-- Le styles -->
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
-                    ->appendStylesheet($this->themecss('bootstrap.min.css'))
-                    ->appendStylesheet($this->themecss('style.css'))
-                    ->appendStylesheet($this->themecss('bootstrap-responsive.min.css')); ?>
+                    ->appendStylesheet($this->themeasset()->css('bootstrap.min.css'))
+                    ->appendStylesheet($this->themeasset()->css('style.css'))
+                    ->appendStylesheet($this->themeasset()->css('bootstrap-responsive.min.css')); ?>
 
     <!-- Scripts -->
-    <?php echo $this->headScript()->appendFile($this->themejs('html5.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
-                                  ->appendFile($this->themejs('jquery-1.7.2.min.js')); ?>
+    <?php echo $this->headScript()->appendFile($this->themeasset()->js('html5.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+                                  ->appendFile($this->themeasset()->js('jquery-1.7.2.min.js')); ?>
 
   </head>
 
