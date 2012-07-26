@@ -45,23 +45,35 @@ class ThemeAsset extends AbstractHelper implements ServiceManagerAwareInterface
         }
     }
     
-    public function css($file=null)
-    {
-        return $this->assetLocations['css'] . "/" . $file;
-    }
+//    public function css($file=null)
+//    {
+//        return $this->assetLocations['css'] . "/" . $file;
+//    }
+//    
+//    public function image($file=null)
+//    {
+//        return $this->assetLocations['img'] . "/" . $file;
+//    }
+//    
+//    public function img($file=null)
+//    {
+//        return $this->assetLocations['img'] . "/" . $file;
+//    }
+//    
+//    public function js($file=null)
+//    {
+//        return $this->assetLocations['js'] . "/" . $file;
+//    }
     
-    public function image($file=null)
-    {
-        return $this->assetLocations['img'] . "/" . $file;
-    }
-    
-    public function img($file=null)
-    {
-        return $this->assetLocations['img'] . "/" . $file;
-    }
-    
-    public function js($file=null)
-    {
-        return $this->assetLocations['js'] . "/" . $file;
+    public function __call($name, $arguments) {
+        $file = $arguments[0];
+        $location = '';
+        if ($name == 'image') {
+            $name = 'img';
+        }
+        if (array_key_exists($name, $this->assetLocations)) {
+            $location = $this->assetLocations[$name];
+        }
+        return $location . "/" . $file;
     }
 }
