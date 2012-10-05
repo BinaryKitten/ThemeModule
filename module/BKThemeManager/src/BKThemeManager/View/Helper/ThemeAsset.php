@@ -1,6 +1,6 @@
 <?php
 
-namespace ThemeModule\View\Helper;
+namespace BKThemeManager\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceManager;

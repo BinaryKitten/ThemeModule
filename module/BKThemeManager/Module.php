@@ -1,29 +1,27 @@
 <?php
-namespace ThemeModule;
+namespace BKThemeManager;
 use Zend\ModuleManager\ModuleManager;
 
 class Module
 {
     public function init(ModuleManager $moduleManager) {
-        $e = $moduleManager->getEvent();
-        $moduleManager->setEvent(clone $e);
+        //@todo - Add in some way to figure out the current theme
+        //@todo - Add in theme Merging for simplicity
+
         $moduleManager->loadModule('DefaultTheme');
-        $moduleManager->setEvent($e);
     }
 
     public function getConfig()
     {
-        $file = __DIR__ . '/config/module.config.php';
-        return include $file;
+        return require(__DIR__ . '/config/module.config.php');
     }
 
     public function getAutoloaderConfig()
     {
-        $src = __DIR__ . '/src/' . __NAMESPACE__;
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => $src
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
                 ),
             ),
         );
